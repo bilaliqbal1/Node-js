@@ -5,15 +5,24 @@ const app = express()
 const dotenv = require('dotenv');
 dotenv.config()
 
+console.log(process.env.mongouri);
 
 mongoose.connect(process.env.mongouri,
     {
-        useNewUrlParser : true
-    }).then ( () => console.log('db connected'));
+        useNewUrlParser : true,
+        useUnifiedTopology: true,
+    },(error)=>{
+        if(!error){
+            console.log("db connected");
+        }
+        else{
+            console.log("error");
+        }
+    });
 
-mongoose.connection.on('error',err =>{
-    console.log(`db connection error ${err.message}`);
-})
+// mongoose.connection.on('error',err =>{
+//     console.log(`db connection error ${err.message}`);
+// })
 // /bring in routes
 const postRoutes = require('./routes/post')
 
