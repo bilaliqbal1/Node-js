@@ -2,7 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const app = express()
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const expressValidator = require('express-validator')
 dotenv.config()
 
 console.log(process.env.mongouri);
@@ -24,10 +26,12 @@ mongoose.connect(process.env.mongouri,
 //     console.log(`db connection error ${err.message}`);
 // })
 // /bring in routes
-const postRoutes = require('./routes/post')
+const postRoutes = require('./routes/post');
 
 //middleware
 app.use(morgan('dev'))
+app.use(bodyParser.json());
+app.use(expressValidator());
 
 app.use('/', postRoutes);
 
